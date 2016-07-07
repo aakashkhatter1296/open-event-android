@@ -7,8 +7,10 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -107,6 +109,8 @@ public class MainActivity extends BaseActivity {
 
     private SmoothActionBarDrawerToggle smoothActionBarToggle;
 
+    private AppBarLayout appBarLayout;
+
     public static Intent createLaunchFragmentIntent(Context context) {
         return new Intent(context, MainActivity.class)
                 .putExtra(NAV_ITEM, BOOKMARK);
@@ -136,6 +140,7 @@ public class MainActivity extends BaseActivity {
         eventsDone = 0;
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
 
         setUpToolbar();
         setUpNavDrawer();
@@ -274,16 +279,19 @@ public class MainActivity extends BaseActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (menuItemId) {
             case R.id.nav_tracks:
+                addShadowToAppBar(true);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_tracks);
                 break;
             case R.id.nav_schedule:
+                addShadowToAppBar(false);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new ScheduleFragment(), FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_tracks);
                 break;
             case R.id.nav_bookmarks:
+                addShadowToAppBar(true);
                 DbSingleton dbSingleton = DbSingleton.getInstance();
                 if (!dbSingleton.isBookmarksTableEmpty()) {
                     fragmentManager.beginTransaction()
@@ -294,21 +302,25 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
             case R.id.nav_speakers:
+                addShadowToAppBar(true);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new SpeakerFragment(), FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_speakers);
                 break;
             case R.id.nav_sponsors:
+                addShadowToAppBar(true);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new SponsorsFragment(), FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_sponsor);
                 break;
             case R.id.nav_locations:
+                addShadowToAppBar(true);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new LocationsFragment(), FRAGMENT_TAG).commit();
                 getSupportActionBar().setTitle(R.string.menu_locations);
                 break;
             case R.id.nav_map:
+                addShadowToAppBar(true);
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 fragmentTransaction.replace(R.id.content_frame,
@@ -319,6 +331,7 @@ public class MainActivity extends BaseActivity {
                 getSupportActionBar().setTitle(R.string.menu_map);
                 break;
             case R.id.nav_settings:
+                addShadowToAppBar(true);
                 final Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 smoothActionBarToggle.runWhenIdle(new Runnable() {
                     @Override
@@ -329,6 +342,7 @@ public class MainActivity extends BaseActivity {
                 });
                 break;
             case R.id.nav_about:
+                addShadowToAppBar(true);
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(this);
                 builder.setTitle(String.format("%1$s", getString(R.string.app_name)));
@@ -342,6 +356,19 @@ public class MainActivity extends BaseActivity {
         }
         currentMenuItemId = menuItemId;
         drawerLayout.closeDrawers();
+    }
+
+    public void addShadowToAppBar(boolean addShadow) {
+        if(addShadow){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                appBarLayout.setElevation(12);
+            }
+        }
+        else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                appBarLayout.setElevation(0);
+            }
+        }
     }
 
     public void showErrorDialog(String errorType, String errorDesc) {
