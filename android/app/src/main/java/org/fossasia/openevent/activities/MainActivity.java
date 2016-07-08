@@ -282,13 +282,17 @@ public class MainActivity extends BaseActivity {
                 addShadowToAppBar(true);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new TracksFragment(), FRAGMENT_TAG).commit();
-                getSupportActionBar().setTitle(R.string.menu_tracks);
+                if(getSupportActionBar() != null){
+                    getSupportActionBar().setTitle(R.string.menu_tracks);
+                }
                 break;
             case R.id.nav_schedule:
                 addShadowToAppBar(false);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new ScheduleFragment(), FRAGMENT_TAG).commit();
-                getSupportActionBar().setTitle(R.string.menu_tracks);
+                if(getSupportActionBar() != null){
+                    getSupportActionBar().setTitle(R.string.menu_schedule);
+                }
                 break;
             case R.id.nav_bookmarks:
                 addShadowToAppBar(true);
@@ -296,7 +300,9 @@ public class MainActivity extends BaseActivity {
                 if (!dbSingleton.isBookmarksTableEmpty()) {
                     fragmentManager.beginTransaction()
                             .replace(R.id.content_frame, new BookmarksFragment(), FRAGMENT_TAG).commit();
-                    getSupportActionBar().setTitle(R.string.menu_bookmarks);
+                    if(getSupportActionBar() != null){
+                        getSupportActionBar().setTitle(R.string.menu_bookmarks);
+                    }
                 } else {
                     DialogFactory.createSimpleActionDialog(this, R.string.bookmarks, R.string.empty_list, null).show();
                 }
@@ -305,19 +311,25 @@ public class MainActivity extends BaseActivity {
                 addShadowToAppBar(true);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new SpeakerFragment(), FRAGMENT_TAG).commit();
-                getSupportActionBar().setTitle(R.string.menu_speakers);
+                if(getSupportActionBar() != null){
+                    getSupportActionBar().setTitle(R.string.menu_speakers);
+                }
                 break;
             case R.id.nav_sponsors:
                 addShadowToAppBar(true);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new SponsorsFragment(), FRAGMENT_TAG).commit();
-                getSupportActionBar().setTitle(R.string.menu_sponsor);
+                if(getSupportActionBar() != null){
+                    getSupportActionBar().setTitle(R.string.menu_sponsor);
+                }
                 break;
             case R.id.nav_locations:
                 addShadowToAppBar(true);
                 fragmentManager.beginTransaction()
                         .replace(R.id.content_frame, new LocationsFragment(), FRAGMENT_TAG).commit();
-                getSupportActionBar().setTitle(R.string.menu_locations);
+                if(getSupportActionBar() != null){
+                    getSupportActionBar().setTitle(R.string.menu_locations);
+                }
                 break;
             case R.id.nav_map:
                 addShadowToAppBar(true);
@@ -328,7 +340,9 @@ public class MainActivity extends BaseActivity {
                                 .getMapModuleFactory()
                                 .provideMapModule()
                                 .provideMapFragment(), FRAGMENT_TAG).commit();
-                getSupportActionBar().setTitle(R.string.menu_map);
+                if(getSupportActionBar() != null){
+                    getSupportActionBar().setTitle(R.string.menu_map);
+                }
                 break;
             case R.id.nav_settings:
                 addShadowToAppBar(true);
